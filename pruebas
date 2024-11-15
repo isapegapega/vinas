@@ -1,0 +1,91 @@
+import sqlite3
+
+
+#FUNCIONES PARA REALIZAR LA RESERVA
+def mostrar_tours():
+
+    conn = sqlite3.connect('vinas_1.db')
+    cursor = conn.cursor()
+
+    cursor.execute('SELECT id_tour, nombre_tour, fecha_tour,tipo_your FROM tour')#datos de tour
+    tours = cursor.fetchall() #extrae los datos y los regresa en forma de tuplas
+
+    print("-" * 30)
+
+    for tour in tours :#tour
+        print(f"ID: {tour[0]} | Tour: {tour[1]} | Fecha del tour: {tour[2]} | tipo de tour: {tour[3]} |")
+    print("-" * 30)  
+
+    conn.close()
+    return tours    #return tour 
+
+
+def realizar_reserva(cliente):
+    print(f"\nBienvenido {cliente['nombre_cliente']} {cliente['apellido_cliente']}!")
+
+    print("\nEstos son los Tours disponibles para su compra:")
+    tours = mostrar_tours()
+
+    try:
+        id_tour = int(input("Por favor seleccione el ID del tour que desea agregar a la compra: "))
+        tour_seleccionado = next((p for p in tours if p[0] == id_tour), None) #busca coincidencias
+
+        if not tour_seleccionado:
+            print("Tour no encontrado, intente nuevamente.")
+            return
+        
+        acompanante = int(input("Ingrese la cantidad de acompañantes que lo acompañaran al tour: "))
+
+        acompanantes = None
+        while acompanantes in acompanante:          
+
+            nombre = input("Ingrese Nombre: ")
+            apellido = input("Ingrese Apellido: ")
+            relacion = input("Ingrese relacion con comprador: ")
+
+            conn = sqlite3.connect('vinas_1.db')
+            cursor = conn.cursor()
+
+            cursor.execute('''
+                        INSERT INTO acompanante (id_acompanante, nombre_acompanante, apellido_acompanante, relacion_con_comprador)
+                        VALUES (?, ?, ?, ?),(nombre{1}, apellido{2}, relacion{3})''')
+            conn.commit()
+            print(f"Cliente {nombre} {apellido} fue agregado exitosamente")
+
+
+acompanante (
+                   `id_acompanante` INTEGER NOT NULL UNIQUE PRIMARY KEY,
+                   `nombre_acompanante` TEXT NOT NULL,
+                   `apellido_acompanante` TEXT NOT NULL,
+                   `relacion_con_comprador`
+
+
+
+
+        total = producto_seleccionado[2] * cantidad
+
+        print("\nResumen de la compra:")
+        print("-" * 30)
+        print(f"Producto: {producto_seleccionado[1]}")
+        print(f"Cantidad: {cantidad}")
+        print(f"Precio unitario: ${producto_seleccionado[2]:.2f}")
+        print(f"Total a pagar: ${total:.2f}")
+        print("-" * 30)
+
+        confirmacion = input("¿Desea confirmar la compra? (s/n): ").strip().lower()
+        if confirmacion == 's':
+            conn = sqlite3.connect('ventas.db')
+            cursor = conn.cursor()
+
+            cursor.execute('''
+            INSERT INTO ventas (cliente_id, producto_nombre, cantidad, total)
+            VALUES (?, ?, ?, ?)
+            ''', (cliente['id'], producto_seleccionado[1], cantidad, total))
+
+            conn.commit()
+            conn.close()
+            print("La compra fue realizada con exito, ¡Muchas gracias!")
+        else:
+            print("La compra ha sido cancelada")
+    except ValueError:
+        print("Error: Por favor ingrese un número válido.")

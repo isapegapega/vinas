@@ -10,7 +10,7 @@ def crear_tablas_fuertes():
     cursor.execute('''CREATE TABLE IF NOT EXISTS region (
         `id_region` INTEGER NOT NULL UNIQUE,
         `nombre_region` TEXT NOT NULL UNIQUE,
-        PRIMARY KEY(`id_region`)
+        PRIMARY KEY(`id_region` AUTOINCREMENT)
     )''')
         #ubicacion
     cursor.execute('''CREATE TABLE IF NOT EXISTS ubicacion (
@@ -63,7 +63,7 @@ def crear_tablas_fuertes():
 
     conexion.commit()
     print('Tablas creadas exitosamente')
-#crear_tablas_fuertes()
+crear_tablas_fuertes()
 
 def insert_tabas_fuertes():
     cursor.execute('''INSERT INTO region (id_region,nombre_region)
@@ -216,14 +216,14 @@ def insert_tabas_fuertes():
     
     print('datos insertados correctamente')
     conexion.commit()
-#insert_tabas_fuertes()
+insert_tabas_fuertes()
 
 #______________________________________________________________________
 #A CONTINUACION TODAS LAS ENTIDADES DEBILES
 def crear_tablas_debiles():
     # Tabla "venta"
     cursor.execute('''CREATE TABLE IF NOT EXISTS venta (
-                   `id_venta` INTEGER NOT NULL UNIQUE PRIMARY KEY, 
+                   `id_venta` INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT, 
                    `fecha_venta` TEXT NOT NULL,
                    `total_venta` INTEGER NOT NULL,
                    `id_descuento` INTEGER NOT NULL,
@@ -232,19 +232,19 @@ def crear_tablas_debiles():
 
     # Tabla "precio_total"
     cursor.execute('''CREATE TABLE IF NOT EXISTS precio_total (
-                   `id_precio_total` INTEGER NOT NULL UNIQUE PRIMARY KEY,
+                   `id_precio_total` INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT,
                    `n_personas` INTEGER NOT NULL,
                    `precio_unitario` INTEGER NOT NULL)''')
 
     # Tabla "valoracion"
     cursor.execute('''CREATE TABLE IF NOT EXISTS valoracion (
-                   `id_valoracion` INTEGER NOT NULL UNIQUE PRIMARY KEY,
+                   `id_valoracion` INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT,
                    `fecha_valoracion` TEXT NOT NULL,
                    `opinion` TEXT NOT NULL)''')
 
     # Tabla "detalle_venta"
     cursor.execute('''CREATE TABLE IF NOT EXISTS detalle_venta (
-                   `id_detalle_venta` INTEGER NOT NULL UNIQUE PRIMARY KEY,
+                   `id_detalle_venta` INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT,
                    `id_venta` INTEGER NOT NULL,
                    `id_producto` INTEGER NOT NULL,
                    `precio_final` INTEGER NOT NULL,
@@ -253,7 +253,7 @@ def crear_tablas_debiles():
 
     # Tabla "reserva"
     cursor.execute('''CREATE TABLE IF NOT EXISTS reserva (
-                   `id_reserva` INTEGER NOT NULL UNIQUE PRIMARY KEY,
+                   `id_reserva` INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT,
                    `id_cliente` INTEGER NOT NULL,
                    `fecha_reserva` TEXT NOT NULL,
                    `precio_original` INTEGER NOT NULL,
@@ -262,14 +262,14 @@ def crear_tablas_debiles():
 
     # Tabla "acompanante"
     cursor.execute('''CREATE TABLE IF NOT EXISTS acompanante (
-                   `id_acompanante` INTEGER NOT NULL UNIQUE PRIMARY KEY,
+                   `id_acompanante` INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT,
                    `nombre_acompanante` TEXT NOT NULL,
                    `apellido_acompanante` TEXT NOT NULL,
                    `relacion_con_comprador` TEXT NOT NULL)''')
 
     # Tabla "detalle_reserva"
     cursor.execute('''CREATE TABLE IF NOT EXISTS detalle_reserva (
-                   `id_detalle_reserva` INTEGER NOT NULL UNIQUE PRIMARY KEY,
+                   `id_detalle_reserva` INTEGER NOT NULL UNIQUE PRIMARY KEY AUTOINCREMENT,
                    `id_reserva` INTEGER NOT NULL,
                    `id_cliente` INTEGER NOT NULL, 
                    FOREIGN KEY(`id_reserva`) REFERENCES reserva(`id_reserva`),
@@ -278,7 +278,7 @@ def crear_tablas_debiles():
     # Confirmar los cambios en la base de datos
     conexion.commit()
 # Llamar a la función
-#crear_tablas_debiles()
+crear_tablas_debiles()
 
 def insert_tablas_debiles():
             # Inserción en la tabla 'venta'
@@ -437,7 +437,7 @@ def insert_tablas_debiles():
                       (19, 19, 19),
                       (20, 20, 20) ''')
     conexion.commit()
-#insert_tablas_debiles()
+insert_tablas_debiles()
 
 #______________________________________________________________________
 #A CONTINUACION TODAS LAS ENTIDADES ASOCIATIVAS
@@ -542,7 +542,7 @@ def crear_tablas_asociativas():
 
     # Confirmar los cambios en la base de datos
     conexion.commit()
-#crear_tablas_asociativas()
+crear_tablas_asociativas()
 
 def insert_tablas_asociativas():
         #region_ubicacion
@@ -672,6 +672,6 @@ def insert_tablas_asociativas():
                    (19, 19), (20, 20)
                 ''')
     conexion.commit()
-#insert_tablas_asociativas()
+insert_tablas_asociativas()
 
 #MENU
