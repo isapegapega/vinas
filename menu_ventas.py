@@ -18,18 +18,18 @@ def menu_ventas():
             if opcion == 1:
                 print("Ha sido seleccionado agregar venta")
                 agregar_venta()
-            elif opcion == 2:
-                print("Eliminar Venta")
-                eliminar_venta()
-            elif opcion == 3:
-                print("Modificar Venta")
-                modificar_venta()
-            elif opcion == 4:
-                print("Buscar Venta")
-                buscar_venta()
-            elif opcion == 5:
-                print("Mostrar Ventas")
-                mostrar_ventas()
+            # elif opcion == 2:
+            #     print("Eliminar Venta")
+            #     eliminar_venta()
+            # elif opcion == 3:
+            #     print("Modificar Venta")
+            #     modificar_venta()
+            # elif opcion == 4:
+            #     print("Buscar Venta")
+            #     buscar_venta()
+            # elif opcion == 5:
+            #     print("Mostrar Ventas")
+            #     mostrar_ventas()
             elif opcion == 6:
                 menu_principal()
             else:
@@ -73,7 +73,7 @@ def insertar_cliente():
         apellido = input("Apellido: ")
         email = input("Correo Electronico: ")
         telefono = input("Teléfono (sin +56 9): ")
-        conn = sqlite3.connect('')
+        conn = sqlite3.connect('vinas_1.db')
         cursor = conn.cursor()
         try:
             cursor.execute('''
@@ -94,7 +94,7 @@ def buscar_cliente():
     email = input("Ingrese el correo electronico del cliente a buscar: ").strip()
 
     #CONECTAR BASE DE DATOS
-    conn = sqlite3.connect('')
+    conn = sqlite3.connect('vinas_1.db')
     cursor = conn.cursor()
     
     #BUSCAR CLIENTE
@@ -115,7 +115,7 @@ def buscar_cliente():
 #FUNCIONES PARA REALIZAR LA COMPRA
 def mostrar_productos():
 
-    conn = sqlite3.connect('')
+    conn = sqlite3.connect('vinas_1.db')
     cursor = conn.cursor()
 
     cursor.execute('SELECT id_producto, nombre, precio, FROM producto')
