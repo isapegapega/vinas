@@ -15,6 +15,13 @@ def menu_principal():
 
     Flag = True
     while Flag == True:
+            print("\nBienvenido al bla bla bla bla bla")
+            print("1. Ventas")
+            print("2. Tours")
+            print("3. Reservas")
+            print("4. Productos")
+            print("5. Salir")
+
             try:
                 opcion = int(input("\nSeleccione una opcion: \n"))
 

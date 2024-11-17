@@ -3,17 +3,17 @@ import sqlite3
 from menu_ventas import insertar_cliente, buscar_cliente
 
 def menu_reservas():
-    print("1. Agregar Reserva")
-    print("2. Eliminar Reserva")
-    print("3. Modificar Reserva")
-    print("4. Buscar Reserva")
-    print("5. Mostrar Reserva")
-    print("6. Reservas de Tours en todo el año")
-    print("7. Volver al menú principal")
 
     Flag = True
     while Flag == True:
 
+        print("1. Agregar Reserva")
+        print("2. Eliminar Reserva")
+        print("3. Modificar Reserva")
+        print("4. Buscar Reserva")
+        print("5. Mostrar Reserva")
+        print("6. Reservas de Tours en todo el año")
+        print("7. Volver al menú principal")
         try:
             opcion = int(input("Seleccione una opción: "))
 

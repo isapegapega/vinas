@@ -1,17 +1,18 @@
 import sqlite3
 def menu_productos():
 
-    print("\nMenú Producto")
-    print("-"*30)
-    print("1. Agregar Producto")
-    print("2. Eliminar Producto")
-    print("3. Modificar producto")
-    print("4. Busqueda de producto")
-    print("5. Mostrar Stock")
-    print("6. Salir")
-    print("-"*30)
     Flag = True
     while Flag == True:
+
+        print("\nMenú Producto")
+        print("-"*30)
+        print("1. Agregar Producto")
+        print("2. Eliminar Producto")
+        print("3. Modificar producto")
+        print("4. Busqueda de producto")
+        print("5. Mostrar Stock")
+        print("6. Salir")
+        print("-"*30)
 
         try:
             opcion = int(input("Seleccione una opción: "))
@@ -104,7 +105,6 @@ def mostrar_stock():
     if productos:
         for producto in productos:
             print(f"ID: {producto[0]}, Nombre: {producto[1]}, Precio: ${producto[2]}, Tipo: {producto[3]}, Stock Disponible: {producto[4]}")
-        menu_productos()
     else:
         print("No hay productos en stock.")
 #FUNCIÓN PARA BUSCAR VENTA
@@ -134,7 +134,7 @@ def buscar_producto():
         print("\nProductos encontrados:")
         for producto in productos:
             print(f"ID: {producto[0]}, Nombre: {producto[1]}, Precio: {producto[2]}, Tipo: {producto[3]}")
-        menu_productos()
+        
     else:
         print("No se encontraron productos con el criterio seleccionado.")
                  
