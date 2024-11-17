@@ -24,7 +24,7 @@ def menu_principal():
                 #     menu_tours()
                 elif opcion == 3:
                     menu_reservas()
-                # elif opcion == 4:
+                elif opcion == 4:
                     menu_productos()
                 elif opcion == 5:
                     print("Saliendo del menú...")

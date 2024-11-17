@@ -32,7 +32,7 @@ def menu_reservas():
                 print("Mostrar Reserva")
                 mostrar_reservas()
             elif opcion == 6:
-                menu_principal()
+                print('salir')
             else:
                 print("Opción no válida, intentelo de nuevo.")
 
@@ -548,6 +548,7 @@ def modificar_reserva():
     conn.close()
 
 
+#MOSTRAR RESERVAS
 def mostrar_reservas():
     import sqlite3  # Asegúrate de que sqlite3 esté importado
     
