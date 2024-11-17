@@ -2,7 +2,7 @@ from menu_ventas import menu_ventas
 # from menu_tours import menu_tours
 # from menu_reservas import menu_reservas
 from menu_productos import menu_productos
-
+from menu_reservas import menu_reservas
 
 def menu_principal():
     
@@ -22,8 +22,8 @@ def menu_principal():
                     menu_ventas()
                 # elif opcion == 2:
                 #     menu_tours()
-                # elif opcion == 3:
-                #     menu_reservas()
+                elif opcion == 3:
+                    menu_reservas()
                 # elif opcion == 4:
                     menu_productos()
                 elif opcion == 5:

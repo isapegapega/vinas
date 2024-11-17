@@ -63,7 +63,7 @@ def crear_tablas_fuertes():
 
     conexion.commit()
     print('Tablas creadas exitosamente')
-crear_tablas_fuertes()
+#crear_tablas_fuertes()
 
 def insert_tabas_fuertes():
     cursor.execute('''INSERT INTO region (id_region,nombre_region)
@@ -216,7 +216,7 @@ def insert_tabas_fuertes():
     
     print('datos insertados correctamente')
     conexion.commit()
-insert_tabas_fuertes()
+#insert_tabas_fuertes()
 
 #______________________________________________________________________
 #A CONTINUACION TODAS LAS ENTIDADES DEBILES
@@ -278,7 +278,7 @@ def crear_tablas_debiles():
     # Confirmar los cambios en la base de datos
     conexion.commit()
 # Llamar a la función
-crear_tablas_debiles()
+#crear_tablas_debiles()
 
 def insert_tablas_debiles():
             # Inserción en la tabla 'venta'
@@ -437,7 +437,7 @@ def insert_tablas_debiles():
                       (19, 19, 19),
                       (20, 20, 20) ''')
     conexion.commit()
-insert_tablas_debiles()
+#insert_tablas_debiles()
 
 #______________________________________________________________________
 #A CONTINUACION TODAS LAS ENTIDADES ASOCIATIVAS
@@ -542,7 +542,7 @@ def crear_tablas_asociativas():
 
     # Confirmar los cambios en la base de datos
     conexion.commit()
-crear_tablas_asociativas()
+#crear_tablas_asociativas()
 
 def insert_tablas_asociativas():
         #region_ubicacion
@@ -672,6 +672,6 @@ def insert_tablas_asociativas():
                    (19, 19), (20, 20)
                 ''')
     conexion.commit()
-insert_tablas_asociativas()
+#insert_tablas_asociativas()
 
 #MENU

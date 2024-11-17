@@ -1,5 +1,4 @@
 import sqlite3
-from menu_principal import menu_principal
 def menu_ventas():
 
     print("1. Agregar Venta")
@@ -77,7 +76,7 @@ def insertar_cliente():
         cursor = conn.cursor()
         try:
             cursor.execute('''
-                        INSERT INTO clientes (Nombre, Apellido, Email, Telefono)
+                        INSERT INTO cliente (nombre_cliente, apellido_cliente, email_cliente, telefono_cliente)
                         VALUES (?, ?, ?, ?)
                         ''', (nombre, apellido, email, telefono))
             conn.commit()
@@ -98,7 +97,7 @@ def buscar_cliente():
     cursor = conn.cursor()
     
     #BUSCAR CLIENTE
-    cursor.execute('''SELECT * FROM clientes WHERE Email = ?
+    cursor.execute('''SELECT * FROM cliente WHERE email_cliente = ?
                    ''', (email,))
     cliente = cursor.fetchone()
 
@@ -118,7 +117,7 @@ def mostrar_productos():
     conn = sqlite3.connect('vinas_1.db')
     cursor = conn.cursor()
 
-    cursor.execute('SELECT id_producto, nombre, precio, FROM producto')
+    cursor.execute('SELECT id_producto, nombre_producto, precio_original, FROM producto')
     productos = cursor.fetchall()
 
     print("-" * 30)
@@ -159,7 +158,7 @@ def realizar_compra(cliente):
             cursor = conn.cursor()
 
             cursor.execute('''
-            INSERT INTO ventas (cliente_id, producto_nombre, cantidad, total)
+            INSERT INTO ventas (id_cliente, nombre_producto, cantidad, total)
             VALUES (?, ?, ?, ?)
             ''', (cliente['id'], producto_seleccionado[1], cantidad, total))
 
