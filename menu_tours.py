@@ -52,8 +52,8 @@ def menu_tours():
                         print(f"Cliente: {fila[1]}")
                         print(f"Fecha: {fila[2]}")
                         print(f"Valoración: {fila[3]}")
-                    
-            elif opcion == 6:
+                        
+            elif opcion == 2:
                 Flag = False
             else:
                 print("Opción no válida, intentelo de nuevo.")

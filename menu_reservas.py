@@ -8,7 +8,8 @@ def menu_reservas():
     Flag = True
     while Flag == True:
 
-        print('\nMenu Reservas')
+        
+        print("\nMenú Reserva")
         print("-"*30)
         print("1. Agregar Reserva")
         print("2. Eliminar Reserva")
