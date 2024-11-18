@@ -8,7 +8,8 @@ def menu_reservas():
     print("3. Modificar Reserva")
     print("4. Buscar Reserva")
     print("5. Mostrar Reserva")
-    print("6. Volver al menú principal")
+    print("6. Reservas de Tours en todo el año")
+    print("7. Volver al menú principal")
 
     Flag = True
     while Flag == True:
@@ -550,7 +551,6 @@ def modificar_reserva():
 
 #MOSTRAR RESERVAS
 def mostrar_reservas():
-    import sqlite3  # Asegúrate de que sqlite3 esté importado
     
     conn = sqlite3.connect('vinas_1.db')
     cursor = conn.cursor()
@@ -587,3 +587,23 @@ def mostrar_reservas():
         print("No hay reservas registradas.")
         print("-" * 60)
     conn.close()
+def obtener_reservas_tours():
+    año = input("Ingrese el año (YYYY): ").strip()
+
+    query = """
+    SELECT 
+        t.nombre_tour,
+        COUNT(rt.id_reserva) AS total_reservas
+    FROM tour t
+    LEFT JOIN reserva_tour rt ON t.id_tour = rt.id_tour
+    LEFT JOIN reserva r ON rt.id_reserva = r.id_reserva
+    WHERE strftime('%Y', substr(r.fecha_reserva, 7, 4) || '-' || substr(r.fecha_reserva, 4, 2) || '-' || substr(r.fecha_reserva, 1, 2)) = ?
+    GROUP BY t.nombre_tour;
+    """
+    
+    with sqlite3.connect("vinas_1.db") as conn:
+        cursor = conn.cursor()
+        cursor.execute(query, (año,))
+        resultados = cursor.fetchall()
+    
+    return resultados
