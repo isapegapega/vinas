@@ -4,16 +4,6 @@ import sqlite3
 #Menu principal de Ventas 
 def menu_ventas():
 
-    print("\nMenú Venta")
-    print("-"*30)
-    print("1. Agregar Venta")
-    print("2. Eliminar Venta")
-    print("3. Modificar Venta")
-    print("4. Buscar Venta")
-    print("5. Mostrar Ventas")
-    print("6. Salir")
-    print("-"*30)
-
     Flag = True
     while Flag == True:
 
@@ -234,6 +224,7 @@ def eliminar_venta():
                     cursor.execute('''DELETE FROM producto_venta WHERE id_venta = ?''', (id_venta,))
                     cursor.execute('''DELETE FROM venta_cliente WHERE id_venta = ?''', (id_venta,))
                     cursor.execute('''DELETE FROM venta WHERE id_venta = ?''', (id_venta,))
+                    cursor.execute('''DELETE FROM detalle_venta WHERE id_venta = ? ''', (id_venta))
                     conn.commit()  # Guardamos los cambios
                     print(f"La venta con ID {id_venta} ha sido exitosamente eliminada.")
                 except Exception as e:
@@ -362,6 +353,7 @@ def buscar_venta():
         print("No se encontraron ventas con el criterio seleccionado.")
 
 
+#modificar venta
 def modificar_venta():
     import sqlite3  # Importación de sqlite3 dentro de la función
 

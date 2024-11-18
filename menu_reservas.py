@@ -2,18 +2,22 @@ from datetime import datetime
 import sqlite3
 from menu_ventas import insertar_cliente, buscar_cliente
 
+#MENU PRINCIPAL RESERVAS
 def menu_reservas():
-    print("1. Agregar Reserva")
-    print("2. Eliminar Reserva")
-    print("3. Modificar Reserva")
-    print("4. Buscar Reserva")
-    print("5. Mostrar Reserva")
-    print("6. Reservas de Tours en todo el año")
-    print("7. Volver al menú principal")
 
     Flag = True
     while Flag == True:
 
+        print('\nMenu Reservas')
+        print("-"*30)
+        print("1. Agregar Reserva")
+        print("2. Eliminar Reserva")
+        print("3. Modificar Reserva")
+        print("4. Buscar Reserva")
+        print("5. Mostrar Reserva")
+        print("6. Reservas de Tours en todo el año")
+        print("7. Volver al menú principal")
+        print("-"*30)
         try:
             opcion = int(input("Seleccione una opción: "))
 
@@ -33,7 +37,14 @@ def menu_reservas():
                 print("Mostrar Reserva")
                 mostrar_reservas()
             elif opcion == 6:
-                print('salir')
+                resultados = obtener_reservas_tours()
+                if resultados:
+                    for fila in resultados:
+                        print("-" * 30)
+                        print(f"Tour: {fila[0]}")
+                        print(f"Total Reservas: {fila[1]}")          
+            elif opcion == 7:
+                Flag = False
             else:
                 print("Opción no válida, intentelo de nuevo.")
 
@@ -85,6 +96,7 @@ def agregar_reserva():
 
 
 #FUNCIONES PARA REALIZAR LA RESERVA
+    #mostrar tours
 def mostrar_tours():
 
     conn = sqlite3.connect('vinas_1.db')
@@ -100,8 +112,7 @@ def mostrar_tours():
     print("-" * 30)  
 
     conn.close()
-    return tours    #return tour 
-
+    return tours    
 def realizar_reserva(cliente):  
     print(f"Bienvenido {cliente['Nombre']} {cliente['Apellido']}!")
 
@@ -549,7 +560,7 @@ def modificar_reserva():
     conn.close()
 
 
-#MOSTRAR RESERVAS
+#MOSTRAR RESERVA
 def mostrar_reservas():
     
     conn = sqlite3.connect('vinas_1.db')

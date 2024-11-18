@@ -1,17 +1,20 @@
 import sqlite3
+
+#MENU PRINCIPAL PRODUCTO
 def menu_productos():
 
-    print("\nMenú Producto")
-    print("-"*30)
-    print("1. Agregar Producto")
-    print("2. Eliminar Producto")
-    print("3. Modificar producto")
-    print("4. Busqueda de producto")
-    print("5. Mostrar Stock")
-    print("6. Salir")
-    print("-"*30)
     Flag = True
     while Flag == True:
+
+        print("\nMenú Producto")
+        print("-"*30)
+        print("1. Agregar Producto")
+        print("2. Eliminar Producto")
+        print("3. Modificar producto")
+        print("4. Busqueda de producto")
+        print("5. Mostrar Stock")
+        print("6. Salir")
+        print("-"*30)
 
         try:
             opcion = int(input("Seleccione una opción: "))
@@ -39,6 +42,7 @@ def menu_productos():
         except ValueError:
             print ("Por favor ingrese un número entero valido.")
 
+#AGREAGR PRODUCTO
 def agregar_producto():
     conn = sqlite3.connect('vinas_1.db')
     cursor = conn.cursor()
@@ -59,6 +63,8 @@ def agregar_producto():
         print(f"Error al agregar producto: {e}")
     finally:
         conn.close()
+
+#ELIMINAR PRODUCTOS
 def eliminar_producto():
     conn = sqlite3.connect('vinas_1.db')
     cursor = conn.cursor()
@@ -71,6 +77,9 @@ def eliminar_producto():
         if confirmar_eliminacion == "s":
             try:
                 cursor.execute('''DELETE FROM producto WHERE id_producto = ?''', (id_producto,))
+                cursor.execute('''DELETE FROM producto_stock WHERE id_producto = '? ''',(id_producto))
+                cursor.execute('''DELETE FORM vina_producto WHERE id_producto = ? ''', (id_producto))
+                cursor.execute('''DELETE FROM descuento_producto WHERE id_producto = ? ''',(id_producto))
                 conn.commit()
                 print(f"El producto con ID {id_producto} ha sido eliminado exitosamente.")
             except Exception as e:
@@ -81,6 +90,7 @@ def eliminar_producto():
         print(f"No se logró encontrar ningún producto con el ID {id_producto}.")
     conn.close()
 
+#MOSTAR STOCK
 def mostrar_stock():
     conn = sqlite3.connect('vinas_1.db')
     cursor = conn.cursor()
@@ -104,9 +114,9 @@ def mostrar_stock():
     if productos:
         for producto in productos:
             print(f"ID: {producto[0]}, Nombre: {producto[1]}, Precio: ${producto[2]}, Tipo: {producto[3]}, Stock Disponible: {producto[4]}")
-        menu_productos()
     else:
         print("No hay productos en stock.")
+
 #FUNCIÓN PARA BUSCAR VENTA
 def buscar_producto():
     conn = sqlite3.connect('vinas_1.db')
@@ -134,10 +144,11 @@ def buscar_producto():
         print("\nProductos encontrados:")
         for producto in productos:
             print(f"ID: {producto[0]}, Nombre: {producto[1]}, Precio: {producto[2]}, Tipo: {producto[3]}")
-        menu_productos()
+        
     else:
         print("No se encontraron productos con el criterio seleccionado.")
-                 
+
+#MODIFICAR PRODUCTO    
 def modificar_producto_general():
     conn = sqlite3.connect('vinas_1.db')
     cursor = conn.cursor()
@@ -224,8 +235,4 @@ def modificar_producto_general():
         print(f"No se encontró ningún producto con el ID {id_producto}.")
 
     conn.close()
-    
-    
-    
-    
     
