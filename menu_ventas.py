@@ -408,6 +408,3 @@ def modificar_venta():
         print(f"No se encontró ninguna venta con el ID {id_venta}.")
 
     conn.close()
-        
-        
-

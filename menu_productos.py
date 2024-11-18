@@ -224,8 +224,3 @@ def modificar_producto_general():
         print(f"No se encontró ningún producto con el ID {id_producto}.")
 
     conn.close()
-    
-    
-    
-    
-    

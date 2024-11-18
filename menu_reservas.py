@@ -6,7 +6,9 @@ def menu_reservas():
 
     Flag = True
     while Flag == True:
-
+        
+        print("\nMenú Reserva")
+        print("-"*30)
         print("1. Agregar Reserva")
         print("2. Eliminar Reserva")
         print("3. Modificar Reserva")
@@ -14,6 +16,7 @@ def menu_reservas():
         print("5. Mostrar Reserva")
         print("6. Reservas de Tours en todo el año")
         print("7. Volver al menú principal")
+        print("-"*30)
         try:
             opcion = int(input("Seleccione una opción: "))
 

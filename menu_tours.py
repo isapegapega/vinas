@@ -31,11 +31,11 @@ def menu_tours():
 
     Flag = True
     while Flag == True:
-        
+
         print("\nMenú Tour")
         print("-"*30)
         print("1. Tours y valoraciones en un día especifico.")
-        print("6. Salir")
+        print("2. Salir")
         print("-"*30)
 
         try:
@@ -45,9 +45,11 @@ def menu_tours():
                 resultados = obtener_tour_clientes_valoraciones()
                 if resultados:
                     for fila in resultados:
-                        print(f"Tour: {fila[0]}, Cliente: {fila[1]}, Fecha: {fila[2]}, Valoración: {fila[3]}")
-                    
-            elif opcion == 6:
+                        print(f"\nTour: {fila[0]}")
+                        print(f"Cliente: {fila[1]}")
+                        print(f"Fecha: {fila[2]}")
+                        print(f"Valoración: {fila[3]}")      
+            elif opcion == 2:
                 Flag = False
             else:
                 print("Opción no válida, intentelo de nuevo.")
