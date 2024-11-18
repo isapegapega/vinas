@@ -1,19 +1,21 @@
+from datetime import datetime
 import sqlite3
-def menu_ventas():
 
-    print("\nMenú Venta")
-    print("-"*30)
-    print("1. Agregar Venta")
-    print("2. Eliminar Venta")
-    print("3. Modificar Venta")
-    print("4. Buscar Venta")
-    print("5. Mostrar Ventas")
-    print("6. Salir")
-    print("-"*30)
+#Menu principal de Ventas 
+def menu_ventas():
 
     Flag = True
     while Flag == True:
 
+        print("\nMenú Venta")
+        print("-"*30)
+        print("1. Agregar Venta")
+        print("2. Eliminar Venta")
+        print("3. Modificar Venta")
+        print("4. Buscar Venta")
+        print("5. Mostrar Ventas")
+        print("6. Salir")
+        print("-"*30)
         try:
             opcion = int(input("Seleccione una opción: "))
 
@@ -39,6 +41,7 @@ def menu_ventas():
 
         except ValueError:
             print ("Por favor ingrese un número entero valido.")
+
 #AGREGAR VENTA
 def agregar_venta():
     print("\n1. Generar Venta")
@@ -62,7 +65,7 @@ def agregar_venta():
                         realizar_compra(cliente)
 
                 elif opcion_cliente == 2:
-                    buscar_cliente()
+                    cliente = buscar_cliente()
                     if cliente:  
                         realizar_compra(cliente)
                 else:
@@ -70,33 +73,45 @@ def agregar_venta():
             except ValueError:
                 print ("Por favor ingrese un número entero valido.")
         
-    if opcion_de_venta == 2:
+    elif opcion_de_venta == 2:
         menu_ventas()
-#FUNCIONES PARA LA BUSQUEDA DE CLIENTE
-def insertar_cliente():
-        print("Ingrese los datos del cliente: ")
-        nombre = input("Nombre: ")
-        apellido = input("Apellido: ")
-        email = input("Correo Electronico: ")
-        telefono = input("Teléfono (sin +56 9): ")
-        conn = sqlite3.connect('vinas_1.db')
-        cursor = conn.cursor()
-        try:
-            cursor.execute('''
-                        INSERT INTO cliente (nombre_cliente, apellido_cliente, email_cliente, telefono_cliente
-                        )
-                        VALUES (?, ?, ?, ?)
-                        ''', (nombre, apellido, email, telefono))
-            conn.commit()
-            print(f"Cliente {nombre} {apellido} fue agregado exitosamente")
 
-            cliente = {'id':cursor.lastrowid, 'Nombre': nombre, 'Apellido': apellido, 'Email': email, 'Telefono': telefono}
-            conn.close()
-            return cliente
-        except sqlite3.IntegrityError:
-            print("Ya existe un cliente con ese correo electrónico.")
-            conn.close()
-            return None
+#FUNCIONES PARA LA BUSQUEDA DE CLIENTE
+
+#insertar nuevo cliennte
+def insertar_cliente():
+    print("Ingrese los datos del cliente: ")
+    nombre = input("Nombre: ").strip()
+    apellido = input("Apellido: ").strip()
+    email = input("Correo Electrónico: ").strip()
+    telefono = input("Teléfono (sin +56 9): ").strip()
+
+    # Validación de campos
+    if not nombre or not apellido or not email or not telefono:
+        print("Todos los campos son obligatorios. Inténtelo de nuevo.")
+        return None
+
+    conn = sqlite3.connect('vinas_1.db')
+    cursor = conn.cursor()
+    try:
+        cursor.execute('''
+            INSERT INTO cliente (nombre_cliente, apellido_cliente, email_cliente, telefono_cliente)
+            VALUES (?, ?, ?, ?)
+        ''', (nombre, apellido, email, telefono))
+        conn.commit()
+        print(f"Cliente {nombre} {apellido} fue agregado exitosamente.")
+
+        cliente = {'id': cursor.lastrowid, 'Nombre': nombre, 'Apellido': apellido, 'Email': email, 'Telefono': telefono}
+        return cliente
+    except sqlite3.IntegrityError:
+        print("Ya existe un cliente con ese correo electrónico.")
+    except sqlite3.Error as e:
+        print(f"Ocurrió un error al insertar el cliente: {e}")
+    finally:
+        conn.close()
+
+        
+#buscar cliente
 def buscar_cliente():
     email = input("Ingrese el correo electronico del cliente a buscar: ").strip()
 
@@ -116,27 +131,27 @@ def buscar_cliente():
         return cliente_dict
     else:
         print("Cliente no encontrado. Asegurese de que el correo utilizado sea el correcto")
-        conn.close()
         return None
+    
 #FUNCIONES PARA REALIZAR LA COMPRA
 def mostrar_productos():
 
     conn = sqlite3.connect('vinas_1.db')
     cursor = conn.cursor()
 
-    cursor.execute('SELECT id_producto, nombre_producto, precio_original, FROM producto')
+    cursor.execute('''SELECT id_producto, nombre_producto, precio_original FROM producto''')
     productos = cursor.fetchall()
+    conn.close()
 
     print("\nProductos disponibles:")
     print("-" * 30)
     for producto in productos:
         print(f"ID: {producto[0]} | Producto: {producto[1]} | Precio: ${producto[2]:.2f}")
     print("-" * 30)  
-
-    conn.close()
-    return productos     
+    return productos  
+   
 def realizar_compra(cliente):
-    print(f"\nBienvenido {cliente['nombre']} {cliente['apellido']}!")
+    print(f"\nBienvenido {cliente['Nombre']} {cliente['Apellido']}!")
 
     print("\nEstos son los productos disponibles para su compra:")
     productos = mostrar_productos()
@@ -154,12 +169,12 @@ def realizar_compra(cliente):
         print(f"Producto seleccionado: {producto_seleccionado[1]}, Precio: ${producto_seleccionado[2]}")
 
         confirmacion = input("¿Desea confirmar la compra? (s/n): ").strip().lower()
+        
         if confirmacion == 's':
             conn = sqlite3.connect('vinas_1.db')
             cursor = conn.cursor()
 
-            from datetime import datetime
-            fecha_venta = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            fecha_venta = datetime.now().strftime('%d/%m/%y %H:%M:%S')
             cursor.execute('''
                 INSERT INTO venta (fecha_venta, total_venta, id_descuento)
                 VALUES (?, ?, ?)
@@ -167,7 +182,7 @@ def realizar_compra(cliente):
             id_venta = cursor.lastrowid
 
             cursor.execute('''
-                INSERT INTO cliente_venta (id_cliente, id_venta)
+                INSERT INTO venta_cliente (id_venta, id_cliente)
                 VALUES (?, ?)
             ''', (cliente['id'], id_venta))
 
@@ -183,49 +198,68 @@ def realizar_compra(cliente):
             print("La compra ha sido cancelada")
     except ValueError:
         print("Error: Por favor ingrese un número válido.")
+
 #FUNCION PARA ELIMINAR UNA VENTA
 def eliminar_venta():
-    conn = sqlite3.connect('vina_1.db')
+    conn = sqlite3.connect('vinas_1.db')
     cursor = conn.cursor()
 
-    id_venta = int(input("Ingrese el ID de la venta que desea eliminar: ")).strip()
-    cursor.execute('''SELECT id_venta FROM venta WHERE id_venta = ?''', (id_venta,))
-    venta = cursor.fetchone()
+    try:
+        id_venta = int(input("Ingrese el ID de la venta que desea eliminar: ").strip())
+    except ValueError:
+        print("Error: Por favor ingrese un número válido.")
+        return
+    
+    try:
+        # Verificar si la venta existe
+        cursor.execute('''SELECT id_venta FROM venta WHERE id_venta = ?''', (id_venta,))
+        venta = cursor.fetchone()
 
-    if venta:
-        confirmar_eliminacion = input(f"¿Seguro(a) que desea eliminar la venta con ID {id_venta} (s/n): ").strip().lower()
-        if confirmar_eliminacion == "s":
-            try:
-                cursor.execute('''DELETE FROM producto_venta WHERE id_venta = ?''', (id_venta,))
-                cursor.execute('''DELETE FROM cliente_venta WHERE id_venta = ?''', (id_venta,))
-                cursor.execute('''DELETE FROM venta WHERE id_venta = ?''', (id_venta,))
-                conn.commit()
-                print(f"La venta con ID {id_venta} ha sido exitosamente eliminada.")
-            except Exception as e:
-                print(f"Error al eliminar la venta: {e}")
+        if venta:
+            # Confirmar eliminación
+            confirmar_eliminacion = input(f"¿Seguro(a) que desea eliminar la venta con ID {id_venta} (s/n): ").strip().lower()
+            if confirmar_eliminacion == "s":
+                try:
+                    # Eliminar las referencias de la venta en otras tablas
+                    cursor.execute('''DELETE FROM producto_venta WHERE id_venta = ?''', (id_venta,))
+                    cursor.execute('''DELETE FROM venta_cliente WHERE id_venta = ?''', (id_venta,))
+                    cursor.execute('''DELETE FROM venta WHERE id_venta = ?''', (id_venta,))
+                    cursor.execute('''DELETE FROM detalle_venta WHERE id_venta = ? ''', (id_venta))
+                    conn.commit()  # Guardamos los cambios
+                    print(f"La venta con ID {id_venta} ha sido exitosamente eliminada.")
+                except Exception as e:
+                    print(f"Error al eliminar la venta: {e}")
+            else:
+                print("Operación cancelada.")
         else:
-            print("Operacion cancelada.")
-    else:
-        print(f"No se ha podido encontrar ninguna venta con el ID {id_venta}.")
+            print(f"No se ha podido encontrar ninguna venta con el ID {id_venta}.")
+    except sqlite3.Error as e:
+        print(f"Error al consultar la base de datos: {e}")
+    
+    # Cerrar la conexión después de todas las operaciones
+    finally:
+        conn.close()
 
-    conn.close() 
+
 #FUNCIÓN PARA MOSTRAR LA VENTA
 def mostrar_ventas():
     conn = sqlite3.connect('vinas_1.db')
     cursor = conn.cursor()
 
-    cursor.execute('''
+    cursor.execute(''' 
         SELECT 
             v.id_venta,
             v.fecha_venta,
             c.nombre_cliente || ' ' || c.apellido_cliente AS cliente,
-            GROUP_CONCAT(p.nombre_producto || ' (x' || pv.cantidad || ')') AS productos,
+            GROUP_CONCAT(p.nombre_producto || ' (x' || ss.n_disponible || ')') AS productos,  -- Cambié la parte de la cantidad
             v.total_venta
         FROM venta v
         JOIN venta_cliente cv ON v.id_venta = cv.id_venta
         JOIN cliente c ON cv.id_cliente = c.id_cliente
         JOIN producto_venta pv ON v.id_venta = pv.id_venta
         JOIN producto p ON pv.id_producto = p.id_producto
+        JOIN producto_stock ps ON p.id_producto = ps.id_producto  -- Aquí se conecta producto con stock
+        JOIN stock ss ON ps.id_stock = ss.id_stock  -- Aquí obtenemos la cantidad desde la tabla stock
         GROUP BY v.id_venta, v.fecha_venta, cliente, v.total_venta
         ORDER BY v.fecha_venta DESC
     ''')
@@ -245,7 +279,10 @@ def mostrar_ventas():
     else:
         print("No hay ventas registradas.")
         print("-" * 60)
+
     conn.close()
+
+
 #FUNCIÓN PARA BUSCAR VENTA
 def buscar_venta():  
     conn = sqlite3.connect('vinas_1.db')
@@ -255,7 +292,7 @@ def buscar_venta():
     print("1. Buscar por ID de venta")
     print("2. Buscar por correo electrónico del cliente")
 
-    opcion = int(input("Ingrese su opción (1 o 2): ")).strip()
+    opcion = int(input("Ingrese su opción (1 o 2): ").strip())
 
     if opcion == 1:
         id_venta = input("Ingrese el ID de la venta: ").strip()
@@ -314,6 +351,9 @@ def buscar_venta():
             print("-" * 60)
     else:
         print("No se encontraron ventas con el criterio seleccionado.")
+
+
+#modificar venta
 def modificar_venta():
     import sqlite3  # Importación de sqlite3 dentro de la función
 
@@ -394,7 +434,7 @@ def modificar_venta():
 
         elif opcion == "3":
             # Modificar fecha de la venta
-            nueva_fecha = input("Ingrese la nueva fecha de la venta (YYYY-MM-DD): ").strip()
+            nueva_fecha = input("Ingrese la nueva fecha de la venta (DD/MM/YYYY): ").strip()
             cursor.execute('''
                 UPDATE venta
                 SET fecha_venta = ?

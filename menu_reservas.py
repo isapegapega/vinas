@@ -2,10 +2,12 @@ from datetime import datetime
 import sqlite3
 from menu_ventas import insertar_cliente, buscar_cliente
 
+#MENU PRINCIPAL RESERVAS
 def menu_reservas():
 
     Flag = True
     while Flag == True:
+
         
         print("\nMenú Reserva")
         print("-"*30)
@@ -95,6 +97,7 @@ def agregar_reserva():
 
 
 #FUNCIONES PARA REALIZAR LA RESERVA
+    #mostrar tours
 def mostrar_tours():
 
     conn = sqlite3.connect('vinas_1.db')
@@ -110,8 +113,7 @@ def mostrar_tours():
     print("-" * 30)  
 
     conn.close()
-    return tours    #return tour 
-
+    return tours    
 def realizar_reserva(cliente):  
     print(f"Bienvenido {cliente['Nombre']} {cliente['Apellido']}!")
 
@@ -559,6 +561,7 @@ def modificar_reserva():
     conn.close()
 
 
+#MOSTRAR RESERVA
 def mostrar_reservas():
     
     conn = sqlite3.connect('vinas_1.db')

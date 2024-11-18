@@ -1,4 +1,6 @@
 import sqlite3
+
+#MENU PRINCIPAL PRODUCTO
 def menu_productos():
 
     Flag = True
@@ -40,6 +42,7 @@ def menu_productos():
         except ValueError:
             print ("Por favor ingrese un número entero valido.")
 
+#AGREAGR PRODUCTO
 def agregar_producto():
     conn = sqlite3.connect('vinas_1.db')
     cursor = conn.cursor()
@@ -60,6 +63,8 @@ def agregar_producto():
         print(f"Error al agregar producto: {e}")
     finally:
         conn.close()
+
+#ELIMINAR PRODUCTOS
 def eliminar_producto():
     conn = sqlite3.connect('vinas_1.db')
     cursor = conn.cursor()
@@ -72,6 +77,9 @@ def eliminar_producto():
         if confirmar_eliminacion == "s":
             try:
                 cursor.execute('''DELETE FROM producto WHERE id_producto = ?''', (id_producto,))
+                cursor.execute('''DELETE FROM producto_stock WHERE id_producto = '? ''',(id_producto))
+                cursor.execute('''DELETE FORM vina_producto WHERE id_producto = ? ''', (id_producto))
+                cursor.execute('''DELETE FROM descuento_producto WHERE id_producto = ? ''',(id_producto))
                 conn.commit()
                 print(f"El producto con ID {id_producto} ha sido eliminado exitosamente.")
             except Exception as e:
@@ -82,6 +90,7 @@ def eliminar_producto():
         print(f"No se logró encontrar ningún producto con el ID {id_producto}.")
     conn.close()
 
+#MOSTAR STOCK
 def mostrar_stock():
     conn = sqlite3.connect('vinas_1.db')
     cursor = conn.cursor()
@@ -107,6 +116,7 @@ def mostrar_stock():
             print(f"ID: {producto[0]}, Nombre: {producto[1]}, Precio: ${producto[2]}, Tipo: {producto[3]}, Stock Disponible: {producto[4]}")
     else:
         print("No hay productos en stock.")
+
 #FUNCIÓN PARA BUSCAR VENTA
 def buscar_producto():
     conn = sqlite3.connect('vinas_1.db')
@@ -137,7 +147,8 @@ def buscar_producto():
         
     else:
         print("No se encontraron productos con el criterio seleccionado.")
-                 
+
+#MODIFICAR PRODUCTO    
 def modificar_producto_general():
     conn = sqlite3.connect('vinas_1.db')
     cursor = conn.cursor()
@@ -223,4 +234,6 @@ def modificar_producto_general():
     else:
         print(f"No se encontró ningún producto con el ID {id_producto}.")
 
+
     conn.close()
+

@@ -1,4 +1,6 @@
 import sqlite3
+
+#OBTENER TOUR CLIENTES Y Valoraciones
 def obtener_tour_clientes_valoraciones():
     fecha_especifica = input("Ingrese la fecha específica (DD/MM/YYYY): ").strip()
     
@@ -26,7 +28,8 @@ def obtener_tour_clientes_valoraciones():
         print(f"No se encontraron tours para la fecha {fecha_especifica}.")
     else:
         return resultados
-    
+
+# MENU PRINCIPAL TOUR  
 def menu_tours():
 
     Flag = True
@@ -48,7 +51,8 @@ def menu_tours():
                         print(f"\nTour: {fila[0]}")
                         print(f"Cliente: {fila[1]}")
                         print(f"Fecha: {fila[2]}")
-                        print(f"Valoración: {fila[3]}")      
+                        print(f"Valoración: {fila[3]}")
+                        
             elif opcion == 2:
                 Flag = False
             else:
